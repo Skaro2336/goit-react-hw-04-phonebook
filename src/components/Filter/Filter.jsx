@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FilterWrapper, FilterLabel, FilterInput } from './FilterStyles';
 
-const Filter = ({ value, onChange }) => {
+function Filter({ value, onChange }) {
   return (
     <FilterWrapper>
       <FilterLabel htmlFor="filter">Filter contacts:</FilterLabel>
@@ -15,7 +15,7 @@ const Filter = ({ value, onChange }) => {
       />
     </FilterWrapper>
   );
-};
+}
 
 Filter.propTypes = {
   value: PropTypes.string.isRequired,

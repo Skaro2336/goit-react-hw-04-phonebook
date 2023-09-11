@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import { Formik, Form, Field } from 'formik';
 import { nanoid } from 'nanoid';
@@ -30,48 +30,46 @@ const phonebookSchema = Yup.object().shape({
     .required('Phone number is required'),
 });
 
-class ContactForm extends Component {
-  initialValues = {
+function ContactForm({ onAddContact }) {
+  const initialValues = {
     name: '',
     phone: '',
   };
 
-  handleSubmit = (values, actions) => {
+  const handleSubmit = (values, actions) => {
     const { name, phone } = values;
 
     const newContact = { id: nanoid(), name, phone };
-    this.props.onAddContact(newContact);
+    onAddContact(newContact);
     actions.resetForm();
   };
 
-  render() {
-    return (
-      <ContactFormWrapper>
-        <ContactTitle>Phonebook</ContactTitle>
-        <Formik
-          initialValues={this.initialValues}
-          validationSchema={phonebookSchema}
-          onSubmit={this.handleSubmit}
-        >
-          <Form as={FormWrapper}>
-            <FormGroup>
-              <Label htmlFor="name">Name</Label>
-              <Field type="text" id="name" name="name" />
-              <ErrorText name="name" component="div" className="error" />
-            </FormGroup>
+  return (
+    <ContactFormWrapper>
+      <ContactTitle>Phonebook</ContactTitle>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={phonebookSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form as={FormWrapper}>
+          <FormGroup>
+            <Label htmlFor="name">Name</Label>
+            <Field type="text" id="name" name="name" />
+            <ErrorText name="name" component="div" className="error" />
+          </FormGroup>
 
-            <FormGroup>
-              <Label htmlFor="phone">Phone</Label>
-              <Field type="text" id="phone" name="phone" />
-              <ErrorText name="phone" component="div" className="error" />
-            </FormGroup>
+          <FormGroup>
+            <Label htmlFor="phone">Phone</Label>
+            <Field type="text" id="phone" name="phone" />
+            <ErrorText name="phone" component="div" className="error" />
+          </FormGroup>
 
-            <Button type="submit">Add Contact</Button>
-          </Form>
-        </Formik>
-      </ContactFormWrapper>
-    );
-  }
+          <Button type="submit">Add Contact</Button>
+        </Form>
+      </Formik>
+    </ContactFormWrapper>
+  );
 }
 
 ContactForm.propTypes = {
